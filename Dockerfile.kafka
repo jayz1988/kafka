@@ -1,0 +1,18 @@
+# Kafka Dockerfile
+FROM ubuntu:22.04
+
+ENV KAFKA_VERSION 2.13-3.6.1
+ENV KAFKA_HOME /opt/kafka
+
+# Java 설치
+RUN apt-get update && apt-get install -y openjdk-11-jdk
+
+WORKDIR /tmp
+COPY kafka_$KAFKA_VERSION.tgz /tmp/
+RUN tar -xzf kafka_$KAFKA_VERSION.tgz -C /opt \
+    && mv /opt/kafka_$KAFKA_VERSION $KAFKA_HOME \
+    && rm -rf /tmp/*
+
+EXPOSE 9092
+
+WORKDIR $KAFKA_HOME
